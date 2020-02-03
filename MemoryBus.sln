@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBus", "MemoryBus\MemoryBus.csproj", "{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBus.Tests", "MemoryBus.Tests\MemoryBus.Tests.csproj", "{3EBD950C-FFF0-411B-97F0-7CDB86889370}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EBD950C-FFF0-411B-97F0-7CDB86889370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EBD950C-FFF0-411B-97F0-7CDB86889370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EBD950C-FFF0-411B-97F0-7CDB86889370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EBD950C-FFF0-411B-97F0-7CDB86889370}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
