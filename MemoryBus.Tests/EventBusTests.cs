@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MemoryBus.Abstractions;
 using MemoryBus.Extensions;
+using MemoryBus.Tests.Events;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
@@ -54,18 +55,6 @@ namespace MemoryBus.Tests
             var count = await _bus.PublishAsync(new object());
             
             Assert.AreEqual(0, count);
-        }
-    }
-
-    class EmptyEvent
-    {
-    }
-
-    class EmptyEventHandler : IEventHandler<EmptyEvent>
-    {
-        public async Task HandleAsync(EmptyEvent @event)
-        {
-            Console.WriteLine($"{@event.GetType().FullName} handled");
         }
     }
 }
