@@ -12,7 +12,6 @@ namespace MemoryBus.Extensions
         public static void AddMemoryBus(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
             services.TryAddSingleton<IEventBus, EventBus>();
-            services.TryAddSingleton<IManualEventBus, ManualEventBus>();
 
             services.Scan(s =>
             {

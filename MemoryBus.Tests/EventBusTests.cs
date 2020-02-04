@@ -24,11 +24,36 @@ namespace MemoryBus.Tests
         }
 
         [Test]
-        public async Task SimpleUsage()
+        public async Task Simple_Usage()
         {
+            _bus.Subscribe<EmptyEvent>(@event => new EmptyEventHandler().HandleAsync(@event));
+            
             var count = await _bus.PublishAsync(new EmptyEvent());
 
-            Assert.AreEqual(1, count);
+            Assert.AreEqual(2, count);
+        }
+
+        [Test]
+        public async Task Unsubscribe()
+        {
+            var count = 0;
+            using (_bus.Subscribe<object>(s => Task.CompletedTask))
+            {
+                count = await _bus.PublishAsync(new object());
+                Assert.AreEqual(1, count);
+            }
+            
+            count = await _bus.PublishAsync(new object());
+            Assert.AreEqual(0, count);
+        }
+
+        [Test]
+        public async Task Publish_Without_Handlers()
+        {
+            _bus.Subscribe<EmptyEvent>(s=> Task.CompletedTask);
+            var count = await _bus.PublishAsync(new object());
+            
+            Assert.AreEqual(0, count);
         }
     }
 

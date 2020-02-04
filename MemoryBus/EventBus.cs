@@ -8,57 +8,39 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MemoryBus
 {
+    public delegate Task EventHandlerFunc(dynamic @event); 
     public class EventBus : IEventBus
     {
+        private readonly ConcurrentDictionary<EventSubscriber, EventHandlerFunc> _source;
         private readonly IServiceProvider _provider;
 
         public EventBus(IServiceProvider provider)
         {
             _provider = provider;
+            _source = new ConcurrentDictionary<EventSubscriber, EventHandlerFunc>();
         }
         
         public async Task<int> PublishAsync<T>(T @event) where T : class
         {
-            var handlers = _provider.GetServices<IEventHandler<T>>().ToList();
+            var handlers = _provider.GetServices<IEventHandler<T>>();
+            var subs = _source.Where(s => s.Key.EventType == TypeOf<T>.Raw);
             
-            var tasks = handlers.Select(s => s.HandleAsync(@event));
+            var tasks = handlers.Select(s => s.HandleAsync(@event)).ToList();
+            tasks.AddRange(subs.Select(s=> s.Value.Invoke(@event)));
+
             await Task.WhenAll(tasks);
-
-            return handlers.Count;
-        }
-    }
-
-    public class ManualEventBus : IManualEventBus
-    {
-        private ConcurrentDictionary<Type, List<Func<dynamic, Task>>> _source;
-
-        public ManualEventBus()
-        {
-            _source = new ConcurrentDictionary<Type, List<Func<dynamic, Task>>>();
+            return tasks.Count;
         }
         
-        public async Task<int> PublishAsync<T>(T @event) where T : class
+        public IDisposable Subscribe<T>(Func<T, Task> handler)
         {
-            if (!_source.TryGetValue(typeof(T), out var handlers)) return 0;
+            Task Wrapper(dynamic @event) => handler((T)@event);
+            var sub = new EventSubscriber(TypeOf<T>.Raw,(self)=> _source.TryRemove(self, out _));
             
-            var tasks = handlers.Select(s => s.Invoke(@event));
-            await Task.WhenAll(tasks);
+            if (!_source.TryAdd(sub, Wrapper)) 
+                throw new InvalidOperationException("Create subscribe failed");
 
-            return handlers.Count;
-        }
-
-        public void Subscribe<T>(Func<T, Task> handler)
-        {
-            Task wrapper(dynamic @event)
-            {
-                return handler(@event);
-            }
-            
-            _source.AddOrUpdate(typeof(T), new List<Func<dynamic, Task>> {wrapper}, (type, items) =>
-            {
-                items.Add(wrapper);
-                return items;
-            });
+            return sub;
         }
     }
 }
