@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace MemoryBus.Abstractions
+namespace EasyBus.Abstractions
 {
-    public interface IMessageBus
+    public interface ICommandBus
     {
         Task SendAsync<T>(T message) where T : class;
     }

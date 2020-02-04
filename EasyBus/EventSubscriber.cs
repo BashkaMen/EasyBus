@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MemoryBus
+namespace EasyBus
 {
     internal class EventSubscriber : IDisposable
     {

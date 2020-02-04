@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MemoryBus
+namespace EasyBus
 {
     internal static class TypeOf<T>
     {

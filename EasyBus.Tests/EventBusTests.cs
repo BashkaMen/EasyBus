@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using MemoryBus.Abstractions;
-using MemoryBus.Extensions;
-using MemoryBus.Tests.Events;
+using EasyBus.Abstractions;
+using EasyBus.Extensions;
+using EasyBus.Tests.Events;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
-namespace MemoryBus.Tests
+namespace EasyBus.Tests
 {
     public class EventBusTests
     {
@@ -18,14 +18,22 @@ namespace MemoryBus.Tests
         {
             var services = new ServiceCollection();
 
-            services.AddMemoryBus(new []{Assembly.GetExecutingAssembly()});
+            services.AddEasyBus(new []{Assembly.GetExecutingAssembly()});
 
             var provider = services.BuildServiceProvider();
             _bus = provider.GetRequiredService<IEventBus>();
         }
 
         [Test]
-        public async Task Simple_Usage()
+        public async Task Simple_Usage_1()
+        {
+            var count = await _bus.PublishAsync(new EmptyEvent());
+
+            Assert.AreEqual(1, count);
+        }
+        
+        [Test]
+        public async Task Simple_Usage_2()
         {
             _bus.Subscribe<EmptyEvent>(@event => new EmptyEventHandler().HandleAsync(@event));
             

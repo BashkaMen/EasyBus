@@ -1,6 +1,6 @@
-﻿namespace MemoryBus.Abstractions
+﻿namespace EasyBus.Abstractions
 {
-    public interface ISingleService {}
+    public interface ISingletonService {}
     public interface IScopedService {}
     public interface ITransientService {}
 }

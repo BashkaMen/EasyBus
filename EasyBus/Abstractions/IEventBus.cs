@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace MemoryBus.Abstractions
+namespace EasyBus.Abstractions
 {
     public interface IEventBus
     {

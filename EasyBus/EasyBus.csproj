@@ -2,12 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <Title>MemoryBus</Title>
+        <Title>EasyBus</Title>
         <Authors>BashkaMen</Authors>
-        <PackageProjectUrl>https://github.com/BashkaMen/MemoryBus</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/BashkaMen/MemoryBus</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/BashkaMen/EasyBus</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/BashkaMen/EasyBus</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>servicebus, messagebus, eventbus, bus</PackageTags>
+        <RootNamespace>EasyBus</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MemoryBus.Abstractions;
+using EasyBus.Abstractions;
+using NUnit.Framework;
 
-namespace MemoryBus.Tests.Events
+namespace EasyBus.Tests.Events
 {
     class EmptyEvent
     {
@@ -12,7 +13,7 @@ namespace MemoryBus.Tests.Events
     {
         public async Task HandleAsync(EmptyEvent @event)
         {
-            Console.WriteLine($"{@event.GetType().FullName} handled");
+            TestContext.WriteLine($"{@event.GetType().FullName} handled");
         }
     }
 }

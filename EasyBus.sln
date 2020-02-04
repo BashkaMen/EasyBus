@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBus", "MemoryBus\MemoryBus.csproj", "{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyBus", "EasyBus\EasyBus.csproj", "{732362DA-60BE-42B7-8D0D-6A1BA58F0FBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBus.Tests", "MemoryBus.Tests\MemoryBus.Tests.csproj", "{3EBD950C-FFF0-411B-97F0-7CDB86889370}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyBus.Tests", "EasyBus.Tests\EasyBus.Tests.csproj", "{3EBD950C-FFF0-411B-97F0-7CDB86889370}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
