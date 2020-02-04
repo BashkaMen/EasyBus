@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using MemoryBus.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Scrutor;
 
 namespace MemoryBus.Extensions
 {
@@ -11,15 +13,35 @@ namespace MemoryBus.Extensions
     {
         public static void AddMemoryBus(this IServiceCollection services, IEnumerable<Assembly> assemblies)
         {
-            services.TryAddSingleton<IEventBus, EventBus>();
+            assemblies = assemblies.Append(typeof(MemoryBusServiceCollection).Assembly);
+            
+            
+            services.RegisterServiceMarkers(assemblies);
+        }
 
-            services.Scan(s =>
+        private static void RegisterServiceMarkers(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+        {
+            services.Scan(source =>
             {
-                s.FromAssemblies(assemblies)
-                    .AddClasses(classes => classes.AssignableTo(typeof(IEventHandler<>)))
+                source.FromAssemblies(assemblies)
+                    .AddClasses(c => c.AssignableTo<ISingleService>())
+                    .AsImplementedInterfaces()
+                    .WithSingletonLifetime();
+                
+                source.FromAssemblies(assemblies)
+                    .AddClasses(c => c.AssignableTo<IScopedService>())
+                    .AsImplementedInterfaces()
+                    .WithScopedLifetime();
+                
+                source.FromAssemblies(assemblies)
+                    .AddClasses(c => c.AssignableTo<ITransientService>())
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });
+            
+            services.RemoveAll(typeof(ISingleService));
+            services.RemoveAll(typeof(IScopedService));
+            services.RemoveAll(typeof(ITransientService));
         }
     }
 }

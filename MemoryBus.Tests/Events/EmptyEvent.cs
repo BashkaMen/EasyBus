@@ -8,7 +8,7 @@ namespace MemoryBus.Tests.Events
     {
     }
 
-    class EmptyEventHandler : IEventHandler<EmptyEvent>
+    class EmptyEventHandler : IEventHandler<EmptyEvent>, ITransientService
     {
         public async Task HandleAsync(EmptyEvent @event)
         {

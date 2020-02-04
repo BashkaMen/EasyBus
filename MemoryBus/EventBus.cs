@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace MemoryBus
 {
     public delegate Task EventHandlerFunc(dynamic @event); 
-    public class EventBus : IEventBus
+    public class EventBus : IEventBus, ISingleService
     {
         private readonly ConcurrentDictionary<EventSubscriber, EventHandlerFunc> _source;
         private readonly IServiceProvider _provider;

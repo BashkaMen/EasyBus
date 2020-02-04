@@ -18,7 +18,7 @@ namespace MemoryBus.Tests
         {
             var services = new ServiceCollection();
 
-            services.AddMemoryBus(new[] {Assembly.GetExecutingAssembly()});
+            services.AddMemoryBus(new []{Assembly.GetExecutingAssembly()});
 
             var provider = services.BuildServiceProvider();
             _bus = provider.GetRequiredService<IEventBus>();
