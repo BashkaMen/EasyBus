@@ -1,6 +1,7 @@
 # EasyBus
 
 It is a simple library implement Pub\Sub and CommandBus patterns. This pattern is very comfortable for async communicate between your modules. 
+
 Imagine WebApi:
 
 You receiving request POST /api/user/signIn. You need find User in data storage, create access token and excute some additional steps, for example push unreaded notifications, log to audit table and update last login time.
