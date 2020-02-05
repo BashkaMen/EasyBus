@@ -4,6 +4,6 @@ namespace EasyBus.Abstractions
 {
     public interface ICommandBus
     {
-        Task SendAsync<T>(T message) where T : class;
+        Task SendAsync<T>(T message) where T : ICommand;
     }
 }

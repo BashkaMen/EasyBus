@@ -6,7 +6,7 @@ using NUnit.Framework;
 
 namespace EasyBus.Tests.Commands
 {
-    public class EmptyCommand
+    public class EmptyCommand : ICommand
     {
         
     }

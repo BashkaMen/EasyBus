@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace EasyBus.Tests.Events
 {
-    class EmptyEvent
+    class EmptyEvent : IEvent
     {
     }
 

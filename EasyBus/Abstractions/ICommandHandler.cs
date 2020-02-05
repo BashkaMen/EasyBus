@@ -2,7 +2,7 @@
 
 namespace EasyBus.Abstractions
 {
-    public interface ICommandHandler<T> where T: class
+    public interface ICommandHandler<in T> where T: ICommand
     {
         Task HandleAsync(T command);
     }

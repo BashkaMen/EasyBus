@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyBus
 {
-    internal delegate Task EventHandlerFunc(dynamic @event);
+    internal delegate Task EventHandlerFunc(IEvent @event);
 
     public class EventBus : IEventBus, ISingletonService
     {
@@ -20,7 +20,7 @@ namespace EasyBus
             _source = new ConcurrentDictionary<EventSubscriber, EventHandlerFunc>();
         }
 
-        public async Task<int> PublishAsync<T>(T @event) where T : class
+        public async Task<int> PublishAsync<T>(T @event) where T : IEvent
         {
             var handlers = _provider.GetServices<IEventHandler<T>>();
             var subs = _source.Where(s => s.Key.EventType == TypeOf<T>.Raw);
@@ -32,11 +32,11 @@ namespace EasyBus
             return tasks.Count;
         }
 
-        public IDisposable Subscribe<T>(Func<T, Task> handler)
+        public IDisposable Subscribe<T>(Func<T, Task> handler) where T : IEvent
         {
-            Task Wrapper(dynamic @event)
+            Task Wrapper(IEvent @event)
             {
-                return handler((T) @event);
+                return handler((T)@event);
             }
 
             var sub = new EventSubscriber(TypeOf<T>.Raw, self => _source.TryRemove(self, out _));

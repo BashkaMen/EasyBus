@@ -46,21 +46,21 @@ namespace EasyBus.Tests
         public async Task Unsubscribe()
         {
             var count = 0;
-            using (_bus.Subscribe<object>(s => Task.CompletedTask))
+            using (_bus.Subscribe<EmptyEvent>(s => Task.CompletedTask))
             {
-                count = await _bus.PublishAsync(new object());
-                Assert.AreEqual(1, count);
+                count = await _bus.PublishAsync(new EmptyEvent());
+                Assert.AreEqual(2, count);
             }
             
-            count = await _bus.PublishAsync(new object());
-            Assert.AreEqual(0, count);
+            count = await _bus.PublishAsync(new EmptyEvent());
+            Assert.AreEqual(1, count);
         }
 
         [Test]
         public async Task Publish_Without_Handlers()
         {
             _bus.Subscribe<EmptyEvent>(s=> Task.CompletedTask);
-            var count = await _bus.PublishAsync(new object());
+            var count = await _bus.PublishAsync(new EmptyEvent2());
             
             Assert.AreEqual(0, count);
         }

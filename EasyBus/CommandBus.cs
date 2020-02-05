@@ -14,7 +14,7 @@ namespace EasyBus
             _provider = provider;
         }
         
-        public async Task SendAsync<T>(T message) where T : class
+        public async Task SendAsync<T>(T message) where T : ICommand
         {
             var handler = _provider.GetRequiredService<ICommandHandler<T>>();
 
