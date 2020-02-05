@@ -14,9 +14,9 @@ namespace EasyBus
         private readonly IServiceProvider _provider;
         private readonly ConcurrentDictionary<EventSubscriber, EventHandlerFunc> _source;
 
-        public EventBus(IServiceProvider provider)
+        public EventBus(IServiceScopeFactory scopeFactory)
         {
-            _provider = provider;
+            _provider = scopeFactory.CreateScope().ServiceProvider;
             _source = new ConcurrentDictionary<EventSubscriber, EventHandlerFunc>();
         }
 

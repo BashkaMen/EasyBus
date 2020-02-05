@@ -9,9 +9,9 @@ namespace EasyBus
     {
         private readonly IServiceProvider _provider;
 
-        public CommandBus(IServiceProvider provider)
+        public CommandBus(IServiceScopeFactory scopeFactory)
         {
-            _provider = provider;
+            _provider = scopeFactory.CreateScope().ServiceProvider;
         }
         
         public async Task SendAsync<T>(T message) where T : ICommand
