@@ -9,6 +9,7 @@
         <RepositoryType></RepositoryType>
         <PackageTags>servicebus, messagebus, eventbus, bus</PackageTags>
         <RootNamespace>EasyBus</RootNamespace>
+        <Version>1.0.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
