@@ -25,16 +25,19 @@ namespace EasyBus.Extensions
             {
                 source.FromAssemblies(assemblies)
                     .AddClasses(c => c.AssignableTo<ISingletonService>())
+                    .AsSelf()
                     .AsImplementedInterfaces()
                     .WithSingletonLifetime();
                 
                 source.FromAssemblies(assemblies)
                     .AddClasses(c => c.AssignableTo<IScopedService>())
+                    .AsSelf()
                     .AsImplementedInterfaces()
                     .WithScopedLifetime();
                 
                 source.FromAssemblies(assemblies)
                     .AddClasses(c => c.AssignableTo<ITransientService>())
+                    .AsSelf()
                     .AsImplementedInterfaces()
                     .WithTransientLifetime();
             });
