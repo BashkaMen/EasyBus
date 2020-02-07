@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using EasyBus.Abstractions;
 using EasyBus.Extensions;
-using EasyBus.Tests.Commands;
-using EasyBus.Tests.Events;
+using EasyBus.Tests.Queries;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace EasyBus.Tests
 {
-    public class CommandBusTests
+    public class QueryBusTests
     {
-        private ICommandBus _bus;
+        private IQueryBus _bus;
 
         [SetUp]
         public void Setup()
         {
             var services = new ServiceCollection();
-            
+
             services.AddEasyBus(Assembly.GetExecutingAssembly());
 
             var provider = services.BuildServiceProvider();
-
-            _bus = provider.GetRequiredService<ICommandBus>();
+            _bus = provider.GetRequiredService<IQueryBus>();
         }
 
         [Test]
         public async Task Simple_Usage()
         {
-            await _bus.SendAsync(new EmptyCommand());
+            var result = await _bus.QueryAsync(new BoolQuery());
+
+            Assert.AreNotEqual(Guid.Empty, result);
         }
     }
 }

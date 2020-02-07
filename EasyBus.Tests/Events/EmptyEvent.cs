@@ -11,9 +11,9 @@ namespace EasyBus.Tests.Events
 
     class EmptyEventHandler : IEventHandler<EmptyEvent>, ITransientService
     {
-        public async Task HandleAsync(EmptyEvent @event)
+        public Task HandleAsync(EmptyEvent @event)
         {
-            TestContext.WriteLine($"{@event.GetType().FullName} handled");
+            return Task.CompletedTask;
         }
     }
 }

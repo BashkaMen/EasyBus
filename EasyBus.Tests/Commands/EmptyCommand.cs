@@ -13,9 +13,9 @@ namespace EasyBus.Tests.Commands
 
     public class EmptyCommandHandler : ICommandHandler<EmptyCommand>, ITransientService
     {
-        public async Task HandleAsync(EmptyCommand command)
+        public Task HandleAsync(EmptyCommand command)
         {
-            TestContext.WriteLine($"{command.GetType().Name} handled");
+            return Task.CompletedTask;
         }
     }
 }

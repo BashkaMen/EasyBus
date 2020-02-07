@@ -1,22 +1,20 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EasyBus.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyBus
 {
     public class CommandBus : ICommandBus, ITransientService
     {
-        private readonly IServiceProvider _provider;
+        private readonly IResolver _resolver;
 
-        public CommandBus(IServiceScopeFactory scopeFactory)
+        public CommandBus(IResolver resolver)
         {
-            _provider = scopeFactory.CreateScope().ServiceProvider;
+            _resolver = resolver;
         }
-        
+
         public async Task SendAsync<T>(T message) where T : ICommand
         {
-            var handler = _provider.GetRequiredService<ICommandHandler<T>>();
+            var handler = _resolver.Resolve<ICommandHandler<T>>();
 
             await handler.HandleAsync(message);
         }
