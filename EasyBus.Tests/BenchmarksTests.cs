@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using EasyBus.Abstractions;
 using EasyBus.Extensions;
@@ -46,11 +48,13 @@ namespace EasyBus.Tests
         [Test]
         public void Query()
         {
-            var query = new GuidQuery();
+            var query = new BoolQuery();
+            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query));
+            
             var step = Step.Create("QueryAsync", async context =>
             {
                 await _queryBus.QueryAsync(query);
-                return Response.Ok();
+                return Response.Ok(payload);
             });
 
             var scenario = CreateScenario("Query performance", new[] {step});
@@ -62,10 +66,12 @@ namespace EasyBus.Tests
         public void Command()
         {
             var command = new EmptyCommand();
+            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(command));
+            
             var step = Step.Create("CommandAsync", async context =>
             {
                 await _commandBus.SendAsync(command);
-                return Response.Ok();
+                return Response.Ok(payload);
             });
 
             var scenario = CreateScenario("Command performance", new[] {step});
@@ -76,10 +82,12 @@ namespace EasyBus.Tests
         public void Event()
         {
             var @event = new EmptyEvent();
+            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
+            
             var step = Step.Create("EventAsync", async context =>
             {
                 await _eventBus.PublishAsync(@event);
-                return Response.Ok();
+                return Response.Ok(payload);
             });
 
             var scenario = CreateScenario("Event performance", new[] {step});

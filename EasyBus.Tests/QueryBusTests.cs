@@ -27,7 +27,7 @@ namespace EasyBus.Tests
         [Test]
         public async Task Simple_Usage()
         {
-            var result = await _bus.QueryAsync(new GuidQuery());
+            var result = await _bus.QueryAsync(new BoolQuery());
 
             Assert.AreNotEqual(Guid.Empty, result);
         }
