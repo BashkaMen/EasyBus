@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using EasyBus.Abstractions;
 using EasyBus.Extensions;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NBomber.Contracts;
 using NBomber.CSharp;
 using NUnit.Framework;
+using TestContext = NUnit.Framework.TestContext;
 
 namespace EasyBus.Tests
 {
@@ -49,29 +51,44 @@ namespace EasyBus.Tests
         public void Query()
         {
             var query = new BoolQuery();
-            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(query));
             
             var step = Step.Create("QueryAsync", async context =>
             {
                 await _queryBus.QueryAsync(query);
-                return Response.Ok(payload);
+                return Response.Ok();
             });
 
             var scenario = CreateScenario("Query performance", new[] {step});
             
             NBomberRunner.RegisterScenarios(scenario).RunTest();
         }
+
+        [Test]
+        public async Task ManualQuery()
+        {
+            var token = new CancellationTokenSource();
+            var query = new BoolQuery();
+            var count = 0;
+
+            token.Token.Register(() => TestContext.WriteLine($"Query handled {count} per 10 sec"));
+            token.CancelAfter(TimeSpan.FromSeconds(10));
+            
+            while (!token.IsCancellationRequested)
+            {
+                await _queryBus.QueryAsync(query);
+                count++;
+            }
+        }
         
         [Test]
         public void Command()
         {
             var command = new EmptyCommand();
-            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(command));
             
             var step = Step.Create("CommandAsync", async context =>
             {
                 await _commandBus.SendAsync(command);
-                return Response.Ok(payload);
+                return Response.Ok();
             });
 
             var scenario = CreateScenario("Command performance", new[] {step});
@@ -82,12 +99,11 @@ namespace EasyBus.Tests
         public void Event()
         {
             var @event = new EmptyEvent();
-            var payload = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
             
             var step = Step.Create("EventAsync", async context =>
             {
                 await _eventBus.PublishAsync(@event);
-                return Response.Ok(payload);
+                return Response.Ok();
             });
 
             var scenario = CreateScenario("Event performance", new[] {step});
