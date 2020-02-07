@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using EasyBus.Abstractions;
@@ -18,7 +19,7 @@ namespace EasyBus.Tests
         {
             var services = new ServiceCollection();
 
-            services.AddEasyBus(new []{Assembly.GetExecutingAssembly()});
+            services.AddEasyBus(Assembly.GetExecutingAssembly());
 
             var provider = services.BuildServiceProvider();
             _bus = provider.GetRequiredService<IEventBus>();

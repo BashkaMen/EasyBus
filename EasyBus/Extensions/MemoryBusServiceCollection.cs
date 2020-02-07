@@ -11,15 +11,14 @@ namespace EasyBus.Extensions
 {
     public static class EasyBusServiceCollection
     {
-        public static void AddEasyBus(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+        public static void AddEasyBus(this IServiceCollection services, params Assembly[] assemblies)
         {
-            assemblies = assemblies.Append(typeof(EasyBusServiceCollection).Assembly);
-            
+            assemblies = assemblies.Append(typeof(EasyBusServiceCollection).Assembly).ToArray();
             
             services.RegisterServiceMarkers(assemblies);
         }
 
-        private static void RegisterServiceMarkers(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+        private static void RegisterServiceMarkers(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.Scan(source =>
             {
